@@ -1,0 +1,60 @@
+---
+- name: Deploying Application to Elastic Kubernetes Service
+  hosts: localhost
+  gather_facts: false
+  vars:
+    kubeconfig_file: ~/.kube/config
+    namespace_name: bry
+  tasks:
+    - name: Creating Namespace
+      kubernetes.core.k8s:
+        kubeconfig: "{{ kubeconfig_file }}"
+        name: "{{ namespace_name }}"
+        api_version: v1
+        kind: Namespace
+        state: present
+
+    - name: Creating Deployment
+      kubernetes.core.k8s:
+        kubeconfig: "{{ kubeconfig_file }}"
+        state: present
+        src: Service.yaml
+        namespace: "{{ namespace_name }}"
+
+    - name: Deploying Cilist chart using set values on target
+      kubernetes.core.helm:
+        name: chill
+        chart_ref: cilist/chill
+        release_namespace: "{{ namespace_name }}"
+        values:
+          data:
+            url: "http://a021573ba163c4a4d8b6135a8c6c57cb-193997219.ap-southeast-2.elb.amazonaws.com:5000"
+
+    - name: Deploying Traefik
+      kubernetes.core.helm:
+        name: traefik
+        chart_ref: traefik/traefik
+        release_namespace: "{{ namespace_name }}"
+        values:
+          service:
+            type: LoadBalancer
+
+    - name: Deploying Grafana chart using set values on target
+      kubernetes.core.helm:
+        name: grif
+        chart_ref: grafana/grafana
+        release_namespace: "{{ namespace_name }}"
+        values:
+          service:
+            type: LoadBalancer
+
+    - name: Deploying Prometheus chart using set values on target
+      kubernetes.core.helm:
+        name: prim
+        chart_ref: prometheus/prometheus
+        release_namespace: "{{ namespace_name }}"
+        values:
+          service:
+            type: LoadBalancer
+            
+            
