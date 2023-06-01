@@ -1,5 +1,5 @@
 terraform {
-    source          = "../../../infrastructure-modules/kubernetes-addons"
+    source          = "../../../Modules/kubernetes-addons"
 }
 
 include "root" {
