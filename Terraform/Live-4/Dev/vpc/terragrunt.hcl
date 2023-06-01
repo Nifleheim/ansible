@@ -1,25 +1,32 @@
-remote_state {
-    backend         = "local"
-    generate        = {
-        path        = "backend.tf"
-        if_exists   = "overwrite_terragrunt" 
-    } #generate backend configuration to backend terraform file and overwrite if exist.
-
-    config          = {
-        path        = "${path_relative_to_include()}/terraform.tfstate"
-    } #generate terraform state configuration file.
+terraform {
+    source = "../../../infrastructure-modules/vpc"
 }
 
-generate "provider" {
-    path        = "provider.tf"
-    if_exists   = "overwrite_terragrunt"
-    #generate provider configuration to provider terraform state and overwrite if exist.
-    contents    = <<E0F
+include "root" {
+    path = find_in_parent_folders() 
+}
 
-provider "aws" {
-    region  = "ap-southeast-2"
+include "env" {
+    path              = find_in_parent_folders("env.hcl")
+    expose            = true
+    merge_strategy    = "no_merge"
+
+}
+
+
+inputs = {
+    env               = include.env.locals.env
+    azs               = ["ap-southeast-2a", "ap-southeast-2b"]
+    private_subnets   = ["10.0.0.0/19", "10.0.32.0/19"]
+    public_subnets    = ["10.0.64.0/19", "10.0.96.0/19"]
+
+    private_subnet_tags = {
+    "kubernetes.io/role/internal-elb"   = "1"
+    "kubernetes.io/cluster/dev-demo"    = "owned"
     }
-E0F
+  
+    public_subnet_tags = {
+    "kubernetes.io/role/elb"            = "1"
+    "kubernetes.io/cluster/dev-demo"    = "owned"
+    }
 }
-
-#keep your terraform code DRY (Dont Repeat Yourself) with terragrunt.
