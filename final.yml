@@ -13,7 +13,7 @@
         release_namespace: "{{ namespace_name }}"
         values:
           data:
-            url: "a80958dcf90034628af181c0e6ea0695-1394692667.ap-southeast-2.elb.amazonaws.com:5000"
+            url: "http://a5a694b3454654cbc9acccb4a3610614-124387888.ap-southeast-2.elb.amazonaws.com:5000"
 
     - name: Deploying Traefik
       kubernetes.core.helm:
