@@ -28,7 +28,7 @@
         release_namespace: "{{ namespace_name }}"
         values:
           data:
-            url: "http://a021573ba163c4a4d8b6135a8c6c57cb-193997219.ap-southeast-2.elb.amazonaws.com:5000"
+            url: "a80958dcf90034628af181c0e6ea0695-1394692667.ap-southeast-2.elb.amazonaws.com:5000"
 
     - name: Deploying Traefik
       kubernetes.core.helm:
@@ -39,22 +39,22 @@
           service:
             type: LoadBalancer
 
-    - name: Deploying Grafana chart using set values on target
-      kubernetes.core.helm:
-        name: grif
-        chart_ref: grafana/grafana
-        release_namespace: "{{ namespace_name }}"
-        values:
-          service:
-            type: LoadBalancer
+#    - name: Deploying Grafana chart using set values on target
+#      kubernetes.core.helm:
+#        name: grif
+#        chart_ref: grafana/grafana
+#        release_namespace: "{{ namespace_name }}"
+#        values:
+#          service:
+#            type: LoadBalancer
 
-    - name: Deploying Prometheus chart using set values on target
-      kubernetes.core.helm:
-        name: prim
-        chart_ref: prometheus/prometheus
-        release_namespace: "{{ namespace_name }}"
-        values:
-          service:
-            type: LoadBalancer
+#    - name: Deploying Prometheus chart using set values on target
+#      kubernetes.core.helm:
+#        name: prim
+#        chart_ref: prometheus/prometheus
+#        release_namespace: "{{ namespace_name }}"
+#        values:
+#          service:
+#            type: LoadBalancer
             
             
