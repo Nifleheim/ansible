@@ -1,5 +1,5 @@
 terraform {
-    source = "../../../infrastructure-modules/vpc"
+    source = "../../../Modules/vpc"
 }
 
 include "root" {
