@@ -4,8 +4,64 @@
   gather_facts: false
   vars:
     kubeconfig_file: ~/.kube/config
-    namespace_name: bry
+    namespace_name: final
   tasks:
+    - name: Removing Metricbeat Helm Deployment
+      kubernetes.core.helm:
+        name: metbit
+        release_namespace: "{{ namespace_name }}"
+        state: absent
+        wait: true  
+
+    - name: Removing Filebeat Helm Deployment
+      kubernetes.core.helm:
+        name: filbit
+        release_namespace: "{{ namespace_name }}"
+        state: absent
+        wait: true      
+
+    - name: Removing Kibana Helm Deployment
+      kubernetes.core.helm:
+        name: kiba
+        release_namespace: "{{ namespace_name }}"
+        state: absent
+        wait: true  
+
+    - name: Removing Elastic Helm Deployment
+      kubernetes.core.helm:
+        name: elasty
+        release_namespace: "{{ namespace_name }}"
+        state: absent
+        wait: true  
+
+    - name: Removing Grafana Helm Deployment
+      kubernetes.core.helm:
+        name: graf
+        release_namespace: "{{ namespace_name }}"
+        state: absent
+        wait: true   
+
+    - name: Removing Prometheus Helm Deployment
+      kubernetes.core.helm:
+        name: prome
+        release_namespace: "{{ namespace_name }}"
+        state: absent
+        wait: true  
+
+    - name: Removing Traefik Helm Deployment
+      kubernetes.core.helm:
+        name: trepik
+        release_namespace: "{{ namespace_name }}"
+        state: absent
+        wait: true 
+
+    - name: Removing Cilist Helm Deployment
+      kubernetes.core.helm:
+        name: chill
+        release_namespace: "{{ namespace_name }}"
+        state: absent
+        wait: true 
+    
     - name: Removing First Service object
       kubernetes.core.k8s:
         api_version: v1
@@ -13,33 +69,3 @@
         namespace: "{{ namespace_name }}"
         name: first
         state: absent
-
-    - name: Removing Cilist Helm Deployment
-      kubernetes.core.helm:
-        name: chill
-        release_namespace: "{{ namespace_name }}"
-        state: absent
-        wait: true  
-
-    - name: Removing Traefik Helm Deployment
-      kubernetes.core.helm:
-        name: traefik
-        release_namespace: "{{ namespace_name }}"
-        state: absent
-        wait: true  
-        
-    - name: Removing Prometheus Helm Deployment
-      kubernetes.core.helm:
-        name: prim
-        release_namespace: "{{ namespace_name }}"
-        state: absent
-        wait: true  
-
-    - name: Removing Grafana Helm Deployment
-      kubernetes.core.helm:
-        name: grif
-        release_namespace: "{{ namespace_name }}"
-        state: absent
-        wait: true     
-
-

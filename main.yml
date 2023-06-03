@@ -4,7 +4,7 @@
   gather_facts: false
   vars:
     kubeconfig_file: ~/.kube/config
-    namespace_name: bry
+    namespace_name: final
   tasks:
     - name: Creating Namespace
       kubernetes.core.k8s:

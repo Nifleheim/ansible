@@ -4,7 +4,7 @@
   gather_facts: false
   vars:
     kubeconfig_file: ~/.kube/config
-    namespace_name: bry
+    namespace_name: final
   tasks:
     - name: Deploying Cilist chart using set values on target
       kubernetes.core.helm:
@@ -13,11 +13,11 @@
         release_namespace: "{{ namespace_name }}"
         values:
           data:
-            url: "http://a4ec09ad41d524b6fbd08df097eed552-1165214294.ap-southeast-2.elb.amazonaws.com:5000"
+            url: "http://a9a5afb516c584559af36babd0f78448-883325887.ap-southeast-2.elb.amazonaws.com:5000"
 
     - name: Deploying Traefik
       kubernetes.core.helm:
-        name: traefik
+        name: trepik
         chart_ref: traefik/traefik
         release_namespace: "{{ namespace_name }}"
         values:
@@ -26,7 +26,7 @@
 
     - name: Deploying Grafana chart using set values on target
       kubernetes.core.helm:
-        name: grif
+        name: graf
         chart_ref: grafana/grafana
         release_namespace: "{{ namespace_name }}"
         values:
@@ -35,7 +35,7 @@
 
     - name: Deploying Prometheus chart using set values on target
       kubernetes.core.helm:
-        name: prim
+        name: prome
         chart_ref: prometheus/prometheus
         release_namespace: "{{ namespace_name }}"
         values:

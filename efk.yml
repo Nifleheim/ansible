@@ -1,0 +1,45 @@
+---
+- name: Monitoring with EFK Stacks
+  hosts: localhost
+  gather_facts: false
+  vars:
+    kubeconfig_file: ~/.kube/config
+    namespace_name: final
+  tasks:
+    - name: Deploying Elastic Chart using set values on target
+      kubernetes.core.helm:
+        name: elasty
+        chart_ref: elastic/elasticsearch
+        release_namespace: "{{ namespace_name }}"
+        chart_version: 8.5.1 
+        values:
+          replica: 1
+          resources:
+            limits:
+              cpu: 3000m
+              memory: 4Gi
+          readinessProbe:
+            initialDelaySeconds: 300
+
+    - name: Deploying Kibana Chart using set values on target
+      kubernetes.core.helm:
+        name: kiba
+        chart_ref: elastic/kibana
+        release_namespace: "{{ namespace_name }}"
+        values:
+          service:
+            type: LoadBalancer
+
+    - name: Deploying Filebeat Chart
+      kubernetes.core.helm:
+        name: filbit
+        chart_ref: elastic/filebeat
+        release_namespace: "{{ namespace_name }}"
+        values:
+
+    - name: Deploying Metricbeat chart
+      kubernetes.core.helm:
+        name: metbit
+        chart_ref: elastic/metricbeat
+        release_namespace: "{{ namespace_name }}"
+        values:
