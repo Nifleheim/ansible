@@ -26,7 +26,10 @@
         name: kibini
         chart_ref: elastic/kibana
         release_namespace: "{{ namespace_name }}"
-
+        values:
+          service:
+            type: LoadBalancer
+        
     - name: Deploying Filebeat Chart
       kubernetes.core.helm:
         name: fib
