@@ -23,7 +23,7 @@
 
     - name: Deploying Kibana Chart using set values on target
       kubernetes.core.helm:
-        name: kiba
+        name: kibana
         chart_ref: elastic/kibana
         release_namespace: "{{ namespace_name }}"
         values:
@@ -32,14 +32,14 @@
 
     - name: Deploying Filebeat Chart
       kubernetes.core.helm:
-        name: filbit
+        name: filebit
         chart_ref: elastic/filebeat
         release_namespace: "{{ namespace_name }}"
         values:
 
     - name: Deploying Metricbeat chart
       kubernetes.core.helm:
-        name: metbit
+        name: metricbit
         chart_ref: elastic/metricbeat
         release_namespace: "{{ namespace_name }}"
         values:
