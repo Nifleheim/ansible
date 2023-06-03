@@ -23,7 +23,7 @@
 
     - name: Deploying Kibana Chart using set values on target
       kubernetes.core.helm:
-        name: kabutaku
+        name: banana
         chart_ref: elastic/kibana
         release_namespace: "{{ namespace_name }}"
         
