@@ -34,6 +34,13 @@
         state: absent
         wait: true  
 
+    - name: Removing Datadog Helm Deployment
+      kubernetes.core.helm:
+        name: datadog
+        release_namespace: "{{ namespace_name }}"
+        state: absent
+        wait: true   
+
     - name: Removing Grafana Helm Deployment
       kubernetes.core.helm:
         name: graf
@@ -62,10 +69,4 @@
         state: absent
         wait: true 
     
-    - name: Removing First Service object
-      kubernetes.core.k8s:
-        api_version: v1
-        kind: Service
-        namespace: "{{ namespace_name }}"
-        name: first
-        state: absent
+

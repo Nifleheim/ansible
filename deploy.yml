@@ -6,6 +6,14 @@
     kubeconfig_file: ~/.kube/config
     namespace_name: final
   tasks:
+    - name: Creating Namespace
+      kubernetes.core.k8s:
+        kubeconfig: "{{ kubeconfig_file }}"
+        name: "{{ namespace_name }}"
+        api_version: v1
+        kind: Namespace
+        state: present
+
     - name: Deploying Cilist chart using set values on target
       kubernetes.core.helm:
         name: chill
@@ -24,15 +32,6 @@
           service:
             type: LoadBalancer
 
-    - name: Deploying Grafana chart using set values on target
-      kubernetes.core.helm:
-        name: graf
-        chart_ref: grafana/grafana
-        release_namespace: "{{ namespace_name }}"
-        values:
-          service:
-            type: LoadBalancer
-
     - name: Deploying Prometheus chart using set values on target
       kubernetes.core.helm:
         name: prome
@@ -41,5 +40,26 @@
         values:
           service:
             type: LoadBalancer
+
+    - name: Deploying Grafana chart using set values on target
+      kubernetes.core.helm:
+        name: graf
+        chart_ref: grafana/grafana
+        release_namespace: "{{ namespace_name }}"
+        values:
+          service:
+            type: LoadBalancer
             
+    - name: Deploying Datadog chart using set values on target
+      kubernetes.core.helm:
+        name: datadog
+        chart_ref: datadog/datadog
+        release_namespace: "{{ namespace_name }}"
+        values:
+          datadog:
+            site: us5.datadoghq.com
+            apiKey: a123f227a9c2f6b5513dfd6fad02ba7d
+          logs:
+            enabled: true
+            containerCollectAll: true
             
