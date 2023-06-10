@@ -55,7 +55,7 @@
         values:
           datadog:
             site: us5.datadoghq.com
-            apiKey: a123f227a9c2f6b5513dfd6fad02ba7d
+            apiKey: YOUR_API_KEY
           logs:
             enabled: true
             containerCollectAll: true
