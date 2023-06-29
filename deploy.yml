@@ -14,23 +14,23 @@
         kind: Namespace
         state: present
 
-#    - name: Deploying Cilist chart using set values on target
-#      kubernetes.core.helm:
-#        name: chill
-#        chart_ref: cilist/chill
-#        release_namespace: "{{ namespace_name }}"
-#        values:
-#          data:
-#            url: "http://a392e54a41c1645e2b332b380e33593f-691543228.ap-southeast-2.elb.amazonaws.com:5000"
+    - name: Deploying Cilist chart using set values on target
+      kubernetes.core.helm:
+        name: chill
+        chart_ref: cilist/chill
+        release_namespace: "{{ namespace_name }}"
+        values:
+          data:
+            url: "http://<link-backend>:5000"
 
-#    - name: Deploying Traefik
-#      kubernetes.core.helm:
-#        name: trepik
-#        chart_ref: traefik/traefik
-#        release_namespace: "{{ namespace_name }}"
-#        values:
-#          service:
-#            type: LoadBalancer
+    - name: Deploying Traefik
+      kubernetes.core.helm:
+        name: trepik
+        chart_ref: traefik/traefik
+        release_namespace: "{{ namespace_name }}"
+        values:
+          service:
+            type: LoadBalancer
 
     - name: Deploying Prometheus chart using set values on target
       kubernetes.core.helm:
